@@ -1,0 +1,224 @@
+﻿<Window x:Class="Alarm_Clock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Alarm_Clock"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1200" Width="1920" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized">
+    <Window.Resources>
+        <Storyboard x:Key="OnLoaded1"/>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
+        <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
+        <SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="#FF212121"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="#FF212121"/>
+        <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="checkBoxBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <Grid x:Name="markGrid" Height="30.098" Width="32.476">
+                                    <Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
+                                    <Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0,-4,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                                <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+                                <Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="SecondHand">
+            <BeginStoryboard Storyboard="{StaticResource OnLoaded1}"/>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid x:Name="MainWin" Background="#FFF1E4D8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Canvas x:Name="alarmEventCanvas" HorizontalAlignment="Left" Height="1200" Grid.RowSpan="2" VerticalAlignment="Top" Width="1920" Opacity="0.65" Background="#FFCBC1C1" Visibility="Hidden">
+            <Button x:Name="dismiss" Content="Dismiss" Height="184" Canvas.Left="827" Canvas.Top="178" Width="417" FontSize="72"/>
+
+        </Canvas>
+
+        <Label x:Name="digitalTime" Content="00:00:00" Margin="173,147,1311,911" FontSize="108" FontFamily="Century Gothic" Grid.RowSpan="2" Visibility="Visible" BorderThickness="2" Foreground="#FF978A8A"/>
+        <Label x:Name="date" Content="MMM DD, YYYY" HorizontalAlignment="Left" Margin="173,103,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="56" Width="276" FontSize="36" Visibility="Visible" Foreground="#FF978A8A"/>
+        <Label x:Name="amORpm" Content="AM" HorizontalAlignment="Left" Margin="609,215,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Height="54" Width="118" FontSize="36" Visibility="Visible" Foreground="#FF978A8A"/>
+        <StackPanel x:Name="stacky" HorizontalAlignment="Left" Height="1180" Margin="1320,10,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="590"/>
+
+        <Canvas x:Name="slideMenu" HorizontalAlignment="Left" Height="1200" Grid.RowSpan="2" VerticalAlignment="Top" Width="600" Margin="1920,0,-600,0" Background="#FF94C7BA">
+            <Label x:Name="setAlarm_hours" Content="12" Canvas.Left="116" Canvas.Top="146" FontSize="108" Height="180" Width="126" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Century Gothic" Foreground="#FF254F3C"/>
+            <Label x:Name="setAlarm_minutes" Content="00" Canvas.Left="305" Canvas.Top="146" FontSize="108" Height="180" Width="126" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Century Gothic" Foreground="#FF254F3C"/>
+            <Label x:Name="setAlarm_colon" Content=":" Canvas.Left="209" Canvas.Top="140" FontSize="108" Height="180" Width="126" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Century Gothic" Foreground="#FF254F3C"/>
+            <Button x:Name="setAlarm_incHours" Content="p" Canvas.Left="138" Canvas.Top="90" Width="75" Height="75" FontSize="72" FontFamily="Wingdings 3" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF254F3C" Click="setAlarm_incHours_Click_1"/>
+            <Button x:Name="setAlarm_incMinutes" Content="p" Canvas.Left="329" Canvas.Top="90" Width="75" Height="75" FontSize="72" FontFamily="Wingdings 3" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF254F3C" Click="setAlarm_incMinutes_Click"/>
+            <Button x:Name="setAlarm_decHours" Content="q" Canvas.Left="138" Canvas.Top="301" Width="75" Height="75" FontSize="72" FontFamily="Wingdings 3" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF254F3C" Click="setAlarm_decHours_Click"/>
+            <Button x:Name="setAlarm_decMinutes" Content="q" Canvas.Left="329" Canvas.Top="301" Width="75" Height="75" FontSize="72" FontFamily="Wingdings 3" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF254F3C" Click="setAlarm_decMinutes_Click"/>
+            <Button x:Name="setAlarm_amORpm" Content="AM" Height="89" Canvas.Left="452" Canvas.Top="186" Width="100" FontSize="55" Background="{x:Null}" Click="setAlarm_amORpm_Click" BorderBrush="{x:Null}" HorizontalAlignment="Center" Foreground="#FF254F3C"/>
+            <Button x:Name="setAlarm_save" Content="SAVE" Height="77" Canvas.Left="311" Canvas.Top="901" Width="251" FontSize="55" Background="#FF1D5552" Click="setAlarm_save_Click" BorderBrush="#FFB6FBF5" Foreground="#FFF3FFFE" FontFamily="Century Gothic" BorderThickness="2"/>
+            <Button x:Name="setAlarm_delete" Content="DELETE" Height="77" Canvas.Left="48" Canvas.Top="901" Width="236" FontSize="55" Background="#FF1D5552" Click="setAlarm_delete_Click" BorderBrush="#FFB6FBF5" Foreground="White" FontFamily="Century Gothic" BorderThickness="2" Visibility="Hidden"/>
+            <Button x:Name="editAlarm_save" Content="CHANGE" Height="79" Canvas.Left="311" Canvas.Top="899" Width="257" FontSize="55" Background="#FF1D5552" Click="editAlarm_save_Click" BorderBrush="#FFB6FBF5" Foreground="White" FontFamily="Century Gothic" BorderThickness="2" Visibility="Hidden"/>
+            <Button x:Name="sun_button" Content="SUN" Canvas.Left="31" Canvas.Top="459" Width="71" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="Sun_Select" Visibility="Hidden"/>
+            <Button x:Name="sat_button" Content="SAT" Canvas.Left="502" Canvas.Top="459" Width="71" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="sat_click" Visibility="Hidden"/>
+            <Button x:Name="fri_button" Content="FRI" Canvas.Left="423" Canvas.Top="459" Width="70" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="fri_click" Visibility="Hidden"/>
+            <Button x:Name="thurs_button" Content="THURS" Canvas.Left="345" Canvas.Top="459" Width="70" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="thurs_click" Visibility="Hidden"/>
+            <Button x:Name="wed_button" Content="WED" Canvas.Left="266" Canvas.Top="459" Width="71" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="wed_click" Visibility="Hidden"/>
+            <Button x:Name="tues_button" Content="TUES" Canvas.Left="189" Canvas.Top="459" Width="70" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="tues_click" Visibility="Hidden"/>
+            <Button x:Name="mon_button" Content="MON" Canvas.Left="111" Canvas.Top="459" Width="70" Height="88" Background="#FFD8F1E4" FontSize="20" Foreground="#FF1D6454" BorderThickness="2" BorderBrush="#FF407457" Click="mon_click" Visibility="Hidden"/>
+            <Label x:Name="alarm_label" Content="Alarm name" Canvas.Left="118" Canvas.Top="626" Height="42" Width="140" Foreground="#FF1D5552" FontSize="20"/>
+            <TextBox x:Name="alarm_name" Height="40" Canvas.Left="271" TextWrapping="Wrap" Canvas.Top="626" Width="291" FontSize="20" Background="#FFD8F1E4" Foreground="#FF1D5552" BorderBrush="#FF407457"/>
+            <CheckBox x:Name="checkBox" Content="Repeat" Canvas.Left="461" Canvas.Top="576" RenderTransformOrigin="0.5,0.5" Foreground="#FF254F3C" Height="16" Width="60" FontWeight="Bold" Checked="checkBox_Checked" Unchecked="checkBox_Unchecked">
+                <CheckBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="2.5" ScaleY="2.5"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </CheckBox.RenderTransform>
+            </CheckBox>
+            <Label x:Name="alarm_label_Copy" Content="Alarm Sound" Canvas.Left="119" Canvas.Top="700" Height="42" Width="140" Foreground="#FF1D5552" FontSize="20"/>
+            <ComboBox x:Name="AlarmSelectSound"  IsEditable="True"
+                                                 IsReadOnly="True"
+                                                 Text="Default"
+                                                 SelectedValuePath="Content"
+                                                 SelectedValue="{Binding FilterService.TripLengthFrom, Mode=TwoWay}" Height="42" Canvas.Left="271" Canvas.Top="700" Width="229" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{x:Null}"/>
+
+        </Canvas>
+        <Ellipse x:Name="Circle1" HorizontalAlignment="Left" Margin="66,352,0,126" Grid.RowSpan="2" Width="722" OpacityMask="Black">
+            <Ellipse.Fill>
+                <RadialGradientBrush GradientOrigin="0.203,0.78">
+                    <GradientStop Color="#FF8B6A48" Offset="0.936"/>
+                    <GradientStop Color="#FFB49E8B" Offset="0.386"/>
+                    <GradientStop Color="#FF7A5D43" Offset="0.988"/>
+                    <GradientStop Color="#FF594735" Offset="0.085"/>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse x:Name="Circle2" HorizontalAlignment="Left" Margin="108,394,0,164" Grid.RowSpan="2" Width="638" OpacityMask="Black" Fill="#FFBEBEBE"/>
+        <Ellipse x:Name="Circle3" HorizontalAlignment="Left" Margin="127,413,0,187" Grid.RowSpan="2" Width="600" OpacityMask="Black" Fill="White"/>
+        <Ellipse x:Name="Circle4" HorizontalAlignment="Left" Margin="395,0,0,455" Grid.RowSpan="2" Width="64" Fill="#FF513E2C" Height="64" VerticalAlignment="Bottom" Stroke="#FF513E2C" OpacityMask="#FF513E2C"/>
+        <Rectangle x:Name="SecondHand" HorizontalAlignment="Left" Margin="425,440,0,487" Grid.RowSpan="2" Width="4" Height="270" Fill="Black" RenderTransformOrigin="0.5,1">
+            <Rectangle.Stroke>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Stroke>
+        </Rectangle>
+
+        <Label x:Name="Label12" Content="12" HorizontalAlignment="Left" Margin="397,403,0,0" Grid.RowSpan="2" Width="64" FontSize="48" FontWeight="Bold" FontFamily="Century Gothic" TextOptions.TextFormattingMode="Display" Height="61" VerticalAlignment="Top"/>
+        <Label x:Name="Label3" Content="3" HorizontalAlignment="Left" Margin="682,0,0,461" Grid.RowSpan="2" Width="64" FontSize="48" FontWeight="Bold" FontFamily="Century Gothic" TextOptions.TextFormattingMode="Display" Height="61" VerticalAlignment="Bottom"/>
+        <Label x:Name="Label6" Content="6" HorizontalAlignment="Left" Margin="409,0,0,187" Grid.RowSpan="2" Width="64" FontSize="48" FontWeight="Bold" FontFamily="Century Gothic" TextOptions.TextFormattingMode="Display" Height="61" VerticalAlignment="Bottom"/>
+        <Label x:Name="Label9" Content="9" HorizontalAlignment="Left" Margin="127,0,0,459" Grid.RowSpan="2" Width="64" FontSize="48" FontWeight="Bold" FontFamily="Century Gothic" TextOptions.TextFormattingMode="Display" Height="61" VerticalAlignment="Bottom"/>
+        <Image x:Name="HourHand" Margin="135.06,464,0,235.34" Grid.RowSpan="2" Source="minuteHand.png" Stretch="Fill" RenderTransformOrigin="0.503,0.505" HorizontalAlignment="Left" Width="583.94" />
+        <Image x:Name="MinuteHand" Margin="404,477,0,473" Grid.RowSpan="2" Source="minute-hand-mitchell-joh-.png" Stretch="Fill" HorizontalAlignment="Left" Width="47" RenderTransformOrigin="0.511,0.944" />
+        <Button x:Name="plusButton" Content="+" HorizontalAlignment="Right" Margin="0,0,63,58" Grid.RowSpan="2" VerticalAlignment="Bottom" Width="142" Click="plusButton_Click" BorderBrush="#00000000" Foreground="#FF978A8A" Height="142" FontSize="110" Background="#00000000" RenderTransformOrigin="0.5,0.5" FontWeight="Bold"/>
+        <Canvas x:Name="alertCanvas1" HorizontalAlignment="Left" Height="1200" Grid.RowSpan="2" VerticalAlignment="Top" Width="1920" Background="White" Opacity="0.75" Visibility="Hidden">
+        </Canvas>
+        <Canvas x:Name="alertCanvas2" HorizontalAlignment="Left" Height="1200" Margin="-5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="1925" Opacity="0.99" Visibility="Hidden">
+
+            <Button x:Name="dismiss1" Content="DISMISS" Height="151" Canvas.Left="760" Canvas.Top="253" Width="453" FontSize="72" Click="dismiss1_Click"/>
+            <Button x:Name="snooze" Content="SNOOZE" Height="151" Canvas.Left="760" Canvas.Top="429" Width="453" FontSize="72" Click="snooze_Click"/>
+
+        </Canvas>
+        <Button x:Name="light_dark" Content="☾" HorizontalAlignment="Left" Height="36" Margin="10,10,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="40" FontSize="20" Visibility="Visible" BorderThickness="3" Background="#FF594735" Foreground="White" Click="light_dark_Click" BorderBrush="White"/>
+        <Button x:Name="light_dark2" Content="☀" HorizontalAlignment="Left" Height="36" Margin="10,10,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="40" FontSize="20" Visibility="Hidden" BorderThickness="3" Background="#FFF1E4D8" Foreground="#FFB08A82" Click="light_dark2_Click" BorderBrush="#FFB08A82"/>
+        <Label x:Name="SnoozeError" Content="An alarm was canceled due to&#xD;&#xA;another alarm ringing." HorizontalAlignment="Center" Height="261" Margin="1026,28,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="694" Background="White" BorderBrush="Red" OpacityMask="Black" BorderThickness="5" FontSize="48" Visibility="Hidden"/>
+        <Button x:Name="butSnoozeErr" Content="OK" HorizontalAlignment="Left" Height="92" Margin="1368,177,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="188" Background="White" FontSize="40" Visibility="Hidden" Click="butSnoozeErr_Click"/>
+        <CheckBox x:Name="checkBoxDigital" Content="Hide digital clock" HorizontalAlignment="Left" Margin="125,1098,0,0" Grid.RowSpan="2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"  Checked="checkBoxDigital_Checked" Unchecked="checkBoxDigital_Unchecked" Foreground="#FF978A8A" Height="16" Width="115">
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
+        <CheckBox x:Name="checkBoxAnalog" Content="Hide analog clock" HorizontalAlignment="Left" Margin="124,1148,0,0" Grid.RowSpan="2" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"  Checked="checkBoxAnalog_Checked" Unchecked="checkBoxAnalog_UnChecked" Foreground="#FF978A8A">
+            <CheckBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="3" ScaleY="3"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </CheckBox.RenderTransform>
+        </CheckBox>
+
+    </Grid>
+
+
+</Window>
